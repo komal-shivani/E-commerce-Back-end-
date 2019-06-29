@@ -12,7 +12,7 @@ const { reviewRouter }=require('./app/controllers/reviewController')
 const { cartLineItemRouter }=require('./app/controllers/cartlineitemController')
 const { orderitemRouter }=require('./app/controllers/orderController')
 const { OrderStatusRouter }=require('./app/controllers/orderstatusController')
-
+const { WishListRouter }=require('./app/controllers/wishlistController')
 
 app.use(express.json())
 app.use(cors())
@@ -25,6 +25,7 @@ app.use('/reviews', reviewRouter)
 app.use('/cartlineitems', cartLineItemRouter)
 app.use('/ordercartitems', orderitemRouter)
 app.use('/orderstatus', OrderStatusRouter)
+app.use('/wishlist', WishListRouter)
 
 app.listen(port,()=>{
     console.log('listening to port', port)
