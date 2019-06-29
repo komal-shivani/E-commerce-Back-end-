@@ -6,15 +6,16 @@ const { authenticateUser } = require('../middleware/authenticateUser')
 router.get('/', authenticateUser, (req,res)=>{
     const {user}=req
     OrderItem.find({
-        user:user._id
+    _id:id,
+    user:user._id
     })
     .then(orderitems=>res.json(orderitems))
     .catch(err=>res.json(err))
 })
 
 router.post('/', authenticateUser, (req,res)=>{
-    const{user}=req
     const body=req.body
+    const {user}=req
     const orderitem=new OrderItem(body)
     orderitem.user=user._id
     orderitem.save()
@@ -22,7 +23,8 @@ router.post('/', authenticateUser, (req,res)=>{
     .catch(err=>res.json(err))
 })
 
-router.get('/:id', authenticateUser, (req,res)=>{
+
+router.get('/:id', authenticateUser,(req,res)=>{
     const id=req.params.id
     OrderItem.findOne({
         _id:id,
