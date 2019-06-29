@@ -1,14 +1,6 @@
-// userId
-// addressId
-// paymentMethod
-// total
-// createdAt
-// code
-// orderLineItems[
-//     {
-//         productId, price, quantity
-//     }
-// ]
+
+
+const mongoose=require('mongoose')
 
 const mongoose=require('mongoose')
 const Schema=mongoose.Schema
@@ -54,3 +46,4 @@ const OrderItem=mongoose.model('OrderItem', orderSchema)
 module.exports={
     OrderItem
 }
+
