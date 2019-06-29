@@ -34,7 +34,7 @@ const UserSchema=new Schema({
     },
     isAdmin:{
         type:Boolean,
-        default:true
+        default:false
     },
     tokens:[{
         token:{
@@ -112,7 +112,7 @@ UserSchema.statics.findByToken=function(token){
     try{
         tokenData=jwt.verify(token,'jwt@123')
     }
-    catch{
+    catch(err){
         return Promise.reject(err)
     }
     return User.findOne({

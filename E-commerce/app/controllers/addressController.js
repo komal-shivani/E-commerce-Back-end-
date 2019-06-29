@@ -4,11 +4,12 @@ const {Address}=require('../models/address')
 const { authenticateUser }=require('../middleware/authenticateUser')
 
 router.get('/', authenticateUser,(req,res)=>{
-    const {user}=req.user
+    const {user}=req
+    console.log(user)
     Address.find({
         user:user._id
     })
-    .sort({crestedAt:_id})
+    // .sort({createdAt:_id})
     .then(addresses=> res.json(addresses))
     .catch(err=>res.json(err))
 })
