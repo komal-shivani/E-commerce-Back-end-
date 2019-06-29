@@ -1,34 +1,49 @@
-const mongoose=require('mongoose')
-// userId
-// addressId
-// paymentMethod
-// total
-// createdAt
-// code
-// orderLineItems[
-//     {
-//         productId, price, quantity
-//     }
-// ]
 
+
+const mongoose=require('mongoose')
+
+const mongoose=require('mongoose')
 const Schema=mongoose.Schema
-const OrderSchema=new Schema({
-       user:{
-           type:Schema.Types.ObjectId,
-           ref:'User'
-       },
-       address:{
-           type:Schema.Types.ObjectId,
-           ref:'Address'
-       },
-       paymentmethod:{
-           type:String
-       },
-       total:{
-           type:String
-       },
-       createdAt:{
-           type:Date,
-           default:Date.now
-       }
+
+const orderSchema=new Schema({
+    user:{
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    },
+    address:{
+        type:Schema.Types.ObjectId,
+        ref:'Address'
+    },
+    paymentmethod:{
+        type:String
+    },
+    total:{
+        type:String
+    },
+    code:{
+        type:String
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
+    },
+    orderlineitem:[{
+        product:{
+            type:Schema.Types.ObjectId,
+            ref:'Product'
+        },
+        price:{
+            type:Number
+        },
+        quantity:{
+            type:String
+        }
+    }]
 })
+
+const OrderItem=mongoose.model('OrderItem', orderSchema)
+
+module.exports={
+    OrderItem
+}
+
