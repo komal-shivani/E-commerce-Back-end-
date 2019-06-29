@@ -1,6 +1,6 @@
-const express=require('express')
-const router=express.Router()
-const {CartItem}=require('../models/cartLineItem')
+const express = require('express')
+const router = express.Router()
+const { CartItem } = require('../models/cartlineitem')
 const { authenticateUser } = require('../middleware/authenticateUser')
 
 
@@ -24,49 +24,50 @@ router.post('/', authenticateUser, (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    const {user}= req
+    const { user } = req
     const id = req.params.id
     CartItem.findOne({
-        _id:id,
-        user:user._id
+        _id: id,
+        user: user._id
     })
         .then(cartItem => res.json(cartItem))
-        .catch(err => res.json(err))     
+        .catch(err => res.json(err))
 })
 
-router.put('/:id', (req,res)=>{
-    const id=req.params.id
-    const body=req.body
+router.put('/:id', (req, res) => {
+    const id = req.params.id
+    const body = req.body
     CartItem.findOneAndUpdate({
-        _id:id,
-        user:user._id},
+        _id: id,
+        user: user._id
+    },
         body,
-        {new:true, runValidators:true})
-        .then(cartItem =>{
-            if(!cartItem){
+        { new: true, runValidators: true })
+        .then(cartItem => {
+            if (!cartItem) {
                 res.json({})
-            
+
             } res.json(cartItem)
         })
-        .catch(err => res.json(err)) 
-    })
+        .catch(err => res.json(err))
+})
 
-    router.delete('/:id',(req,res)=>{
-        const id=req.params.id
-        const {user}=req
-        CartItem.findOneAndDelete({
-            _id:id,
-            user:user._id
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+    const { user } = req
+    CartItem.findOneAndDelete({
+        _id: id,
+        user: user._id
+    })
+        .then(cartItem => {
+            if (!cartItem) {
+                res.json({})
+
+            } res.json(cartItem)
         })
-            .then(cartItem => {
-                if (!cartItem) {
-                    res.json({})
+        .catch(err => res.json(err))
 
-                } res.json(cartItem)
-            })
-            .catch(err => res.json(err))
-
-    })
+})
 
 module.exports = {
     cartLineItemRouter: router
