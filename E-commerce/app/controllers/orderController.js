@@ -1,22 +1,28 @@
 const express=require('express')
 const {OrderItem}=require('../models/order')
 const router=express.Router()
+const { authenticateUser } = require('../middleware/authenticateUser')
 
-router.get('/', (req,res)=>{
-    OrderItem.find()
+router.get('/', authenticateUser, (req,res)=>{
+    const {user}=req
+    OrderItem.find({
+        user:user._id
+    })
     .then(orderitems=>res.json(orderitems))
     .catch(err=>res.json(err))
 })
 
-router.post('/', (req,res)=>{
+router.post('/', authenticateUser, (req,res)=>{
+    const{user}=req
     const body=req.body
     const orderitem=new OrderItem(body)
+    orderitem.user=user._id
     orderitem.save()
     .then(orderitem=>res.json(orderitem))
     .catch(err=>res.json(err))
 })
 
-router.get('/:id', (req,res)=>{
+router.get('/:id', authenticateUser, (req,res)=>{
     const id=req.params.id
     OrderItem.findOne({
         _id:id,
@@ -31,7 +37,7 @@ router.get('/:id', (req,res)=>{
     })
     .catch(err=>res.json(err))
 })
-router.put('/:id',(req,res)=>{
+router.put('/:id', authenticateUser,(req,res)=>{
     const id=req.params.id
     const body=req.body
     OrderItem.findOneAndUpdate({
@@ -44,7 +50,7 @@ router.put('/:id',(req,res)=>{
     .catch(err=>res.json(err))
 })
 
-router.delete('/:id',(req,res)=>{
+router.delete('/:id', authenticateUser,(req,res)=>{
     const id=req.params.id
     OrderItem.findOneAndDelete({
         _id:id,
