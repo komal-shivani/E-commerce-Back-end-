@@ -8,7 +8,7 @@ router.get('/', authenticateUser, (req, res) => {
     console.log(user)
     OrderStatus.find({
         user: user._id
-    })
+    }).populate("user",["username"]).populate("order")
         .then(orderStatuses => res.json(orderStatuses))
         .catch(err => res.json(err))
 })

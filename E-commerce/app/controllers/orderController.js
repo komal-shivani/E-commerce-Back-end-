@@ -6,9 +6,8 @@ const { authenticateUser } = require('../middleware/authenticateUser')
 router.get('/', authenticateUser, (req,res)=>{
     const {user}=req
     OrderItem.find({
-    _id:id,
     user:user._id
-    })
+    }).populate("user", ["username"]).populate("address").populate("orderlineitem.product")
     .then(orderitems=>res.json(orderitems))
     .catch(err=>res.json(err))
 })
@@ -53,7 +52,8 @@ router.put('/:id', authenticateUser,(req,res)=>{
 })
 
 router.delete('/:id', authenticateUser,(req,res)=>{
-    const id=req.params.id
+   const {user}=req
+   const id=req.params.id
     OrderItem.findOneAndDelete({
         _id:id,
         user:user._id

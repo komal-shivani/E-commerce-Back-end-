@@ -4,11 +4,9 @@ const {Review}=require('../models/review')
 const { authouriesUser } = require('../middleware/adminauthorise')
 const { authenticateUser } = require('../middleware/authenticateUser')
 
-router.get('/', authenticateUser,(req,res)=>{
-    const {user}=req
+router.get('/',(req,res)=>{
     Review.find({
-        user:user._id
-    })
+    }).populate("user",["username"]).populate("product")
     .then(reviews=>res.json(reviews))
     .catch(err=>res.json(err))
 })

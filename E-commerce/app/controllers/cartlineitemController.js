@@ -7,8 +7,8 @@ const { authenticateUser } = require('../middleware/authenticateUser')
 router.get('/', authenticateUser, (req, res) => {
     const { user } = req
     CartItem.find({
-        user: user._id
-    })
+        user:user._id
+    }).populate("user",["username"]).populate("product")
         .then(cartitems => res.json(cartitems))
         .catch(err => res.json(err))
 })
@@ -23,7 +23,7 @@ router.post('/', authenticateUser, (req, res) => {
         .catch(err => res.json(err))
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticateUser, (req, res) => {
     const { user } = req
     const id = req.params.id
     CartItem.findOne({
@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
         .catch(err => res.json(err))
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', authenticateUser, (req, res) => {
     const id = req.params.id
     const body = req.body
     CartItem.findOneAndUpdate({
@@ -52,7 +52,7 @@ router.put('/:id', (req, res) => {
         .catch(err => res.json(err))
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authenticateUser,(req, res) => {
     const id = req.params.id
     const { user } = req
     CartItem.findOneAndDelete({

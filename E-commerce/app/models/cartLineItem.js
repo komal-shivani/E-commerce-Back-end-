@@ -6,7 +6,7 @@ const CartLineItem = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    Product: {
+    product: {
         type: Schema.Types.ObjectId,
         ref: 'Product'
     },

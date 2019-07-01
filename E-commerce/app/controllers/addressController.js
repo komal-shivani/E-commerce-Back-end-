@@ -5,11 +5,9 @@ const { authenticateUser }=require('../middleware/authenticateUser')
 
 router.get('/', authenticateUser,(req,res)=>{
     const {user}=req
-    console.log(user)
     Address.find({
         user:user._id
-    })
-    // .sort({createdAt:_id})
+    }).populate("user",["username"])
     .then(addresses=> res.json(addresses))
     .catch(err=>res.json(err))
 })

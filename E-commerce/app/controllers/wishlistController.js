@@ -6,9 +6,8 @@ const { authenticateUser } = require('../middleware/authenticateUser')
 router.get('/', authenticateUser, (req, res) => {
     const { user } = req
      WishList.find({
-        _id: id,
         user: user._id
-    })
+    }).populate("user",["username"]).populate("product")
         .then( wishLists => res.json( wishLists))
         .catch(err => res.json(err))
 })

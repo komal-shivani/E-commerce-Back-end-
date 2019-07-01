@@ -5,11 +5,9 @@ const { authenticateUser }=require('../middleware/authenticateUser')
 const { authouriesUser } = require('../middleware/adminauthorise') 
 
 
-router.get('/', authenticateUser,(req,res)=>{
-    const {user}=req
+router.get('/',(req,res)=>{
     Product.find({
-        user:user._id
-    })
+    }).populate("category",["name"])
     .then(products=>res.json(products))
     .catch(err=>res.json(err))
 })
